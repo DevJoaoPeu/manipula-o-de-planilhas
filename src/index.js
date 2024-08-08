@@ -1,65 +1,106 @@
 const fs = require("fs");
 const path = require("path");
-const reader = require("xlsx");
+const xlsx = require("xlsx");
 
-const inputDir = process.argv[2]; // Caminho do diretório passado no terminal
+const colunasOriginais = [
+  "NrOperadora",
+  "NrApolice",
+  "DataCompetencia",
+  "CodigoEstipulante",
+  "DescricaoEstipulante",
+  "CodigoSubEstipulante",
+  "DescricaoSubEstipulante",
+  "CodigoSubFatura",
+  "DescricaoSubFatura",
+  "CodigoBeneficiario",
+  "NumeroCertificado",
+  "CodigoDependente",
+  "NomeBeneficiario",
+  "DataNascimento",
+  "Sexo",
+  "CodigoPlano",
+  "DescricaoPlano",
+  "DataInicioVigencia",
+  "DataFimVigencia",
+  "Cargo",
+  "NomeMae",
+  "EstadoCivil",
+  "CPF",
+  "CodigoGrauParentesco",
+  "DescricaoGrauParentesco",
+  "PISPASEP",
+  "DataAdmissao",
+  "MatriculaFuncional",
+  "DataFalecimento",
+  "Idade",
+  "Estado",
+  "Cidade",
+  "Status",
+  "AcomodacaoPlano",
+];
 
-// Função para gerar o mapeamento dos nomes dos arquivos
-const fileNameMapping = (fileNames) => {
-  const mapping = {};
-  fileNames.forEach((fileName) => {
-    if (fileName.includes("356")) {
-      mapping[fileName] = `beneficiario_${fileNames[0].split(".")[0]}.txt`;
-    } else if (fileName.includes("357")) {
-      mapping[fileName] = `premio_${fileNames[1].split(".")[0]}.txt`;
-    } else if (fileName.includes("358")) {
-      mapping[fileName] = `utilizacao_${fileNames[2].split(".")[0]}.txt`;
-    }
-  });
-  return mapping;
+// Função para ler e imprimir os nomes das colunas de um arquivo Excel
+const printExcelFile = (filePath) => {
+  try {
+    // Lê o arquivo Excel
+    const workbook = xlsx.readFile(filePath);
+
+    // Itera sobre todas as planilhas no arquivo
+    workbook.SheetNames.forEach((sheetName) => {
+      const sheet = workbook.Sheets[sheetName];
+
+      // Converte a planilha em JSON, tratando a primeira linha como cabeçalhos
+      const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+
+      // Verifica se há dados na planilha
+      if (data.length > 0) {
+        // Obtém os nomes das colunas (primeira linha da planilha)
+        const columnNames = data[0];
+
+        console.log(`Planilha: ${sheetName}`);
+        console.log("Nomes das Colunas:", columnNames);
+      } else {
+        console.log(`Planilha: ${sheetName} está vazia.`);
+      }
+    });
+  } catch (err) {
+    console.error(`Erro ao ler o arquivo Excel: ${err.message}`);
+  }
 };
 
-// Lê todos os arquivos do diretório
-fs.readdir(inputDir, (err, files) => {
-  if (err) {
-    return console.error(`Erro ao ler o diretório: ${err}`);
-  }
+// Função para buscar o arquivo no diretório
+const findAndPrintFile = (directory) => {
+  fs.readdir(directory, (err, files) => {
+    if (err) {
+      return console.error(`Erro ao ler o diretório: ${err}`);
+    }
 
-  // Obtém o mapeamento dos arquivos
-  const fileMapping = fileNameMapping(files);
+    // Filtra os arquivos que contenham "NANSEN INSTRUMENTOS" no nome e tenham a extensão .xlsx
+    const targetFile = files.find(
+      (file) =>
+        file.includes("NANSEN INSTRUMENTOS") && path.extname(file) === ".xlsx"
+    );
 
-  files.forEach((file) => {
-    // Verifica se a extensão do arquivo é .xls
-    if (path.extname(file) === ".xls") {
-      const filePath = path.join(inputDir, file);
+    console.log(files);
 
-      // Obtém o nome do arquivo de saída a partir do mapeamento
-      const outputFileName = fileMapping[file];
-      if (!outputFileName) {
-        console.error(`Nome de saída não encontrado para o arquivo ${file}`);
-        return;
-      }
-      const outputFile = path.join(inputDir, outputFileName);
-
-      const read = reader.readFile(filePath);
-      const sheets = read.SheetNames;
-      let outputData = "";
-
-      for (let i = 0; i < sheets.length; i++) {
-        const sheet = read.Sheets[sheets[i]];
-        const data = reader.utils.sheet_to_json(sheet, { header: 1 });
-
-        // Formata os dados para o formato de texto separado por tabulação
-        data.forEach((row) => {
-          outputData += row.join("\t") + "\n"; // Une as colunas com tabulação e adiciona uma nova linha
-        });
-
-        outputData += "\n"; // Adiciona uma linha em branco entre as planilhas
-      }
-
-      // Grava o conteúdo no arquivo de saída
-      fs.writeFileSync(outputFile, outputData.trim()); // .trim() para remover a última nova linha extra
-      console.log(`Dados exportados para ${outputFile}`);
+    if (targetFile) {
+      const filePath = path.join(directory, targetFile);
+      console.log(`Arquivo encontrado: ${filePath}`);
+      printExcelFile(filePath);
+    } else {
+      console.error(
+        'Nenhum arquivo encontrado com "NANSEN INSTRUMENTOS" no nome.'
+      );
     }
   });
-});
+};
+
+// Obtém o caminho do diretório passado como argumento no terminal
+const inputDir = process.argv[2];
+if (!inputDir) {
+  console.error("Por favor, forneça o caminho para o diretório.");
+  process.exit(1);
+}
+
+// Chama a função para buscar e imprimir o arquivo Excel
+findAndPrintFile(inputDir);
