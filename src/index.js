@@ -101,15 +101,15 @@ const findAndProcessFile = (directory) => {
         file.includes("NANSEN INSTRUMENTOS") && path.extname(file) === ".xlsx"
     );
 
-    if (targetFile) {
-      const filePath = path.join(directory, targetFile);
-      console.log(`Arquivo encontrado: ${filePath}`);
-      processExcelFile(filePath);
-    } else {
+    if (!targetFile) {
       console.error(
         'Nenhum arquivo encontrado com "NANSEN INSTRUMENTOS" no nome.'
       );
-    }
+    } 
+
+    const filePath = path.join(directory, targetFile);
+    console.log(`Arquivo encontrado: ${filePath}`);
+    processExcelFile(filePath);
   });
 };
 
