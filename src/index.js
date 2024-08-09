@@ -2,6 +2,28 @@ const fs = require("fs");
 const path = require("path");
 const xlsx = require("xlsx");
 
+// Função para normalizar os nomes das colunas
+const normalizeColumnName = (name) => {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+};
+
+const toUpperCase = (text) => {
+  return text.toUpperCase();
+};
+
+// Função para converter número de série de data do Excel para o formato DD/MM/YYYY
+const excelDateToString = (num) => {
+  const date = new Date((num - 25569) * 86400 * 1000);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 const colunasOriginais = [
   "NrOperadora",
   "NrApolice",
@@ -39,6 +61,11 @@ const colunasOriginais = [
   "AcomodacaoPlano",
 ];
 
+const defaultValues = {
+  NrOperadora: "367095",
+  DataCompetencia: "01/06/2024",
+};
+
 // Função para processar o arquivo Excel e criar uma nova planilha
 const processExcelFile = (filePath) => {
   try {
@@ -57,13 +84,105 @@ const processExcelFile = (filePath) => {
 
       // Verifica se há dados na planilha
       if (data.length > 0) {
-        const columnNames = data[0]; // Cabeçalhos
+        let columnNames = data[0]; // Cabeçalhos
         const rows = data.slice(1); // Linhas de dados
 
+        columnNames = columnNames.map(normalizeColumnName);
+
+        // Identifica os índices das colunas relevantes
+        const columnIndexes = {
+          contratoIndex: columnNames.indexOf(normalizeColumnName("contrato")),
+          codigoSubFaturaIndex: columnNames.indexOf(
+            normalizeColumnName("codigosubfatura")
+          ),
+          descricaoSubFaturaIndex: columnNames.indexOf(
+            normalizeColumnName("descricaosubfatura")
+          ),
+          contratanteIndex: columnNames.indexOf(
+            normalizeColumnName("contratante")
+          ),
+          codigoBeneficiarioIndex: columnNames.indexOf(
+            normalizeColumnName("carteirinha")
+          ),
+          numeroCertificadoIndex: columnNames.indexOf(
+            normalizeColumnName("familia")
+          ),
+          codigoDependenteIndex: columnNames.indexOf(
+            normalizeColumnName("tipo")
+          ),
+          nomeBeneficiarioIndex: columnNames.indexOf(
+            normalizeColumnName("beneficiario")
+          ),
+          dtNacimentoIndex: columnNames.indexOf(
+            normalizeColumnName("dtnascimento")
+          ),
+        };
+
+        // Verifica se os índices estão corretos
+        console.log(columnIndexes);
+
+        // Função para determinar o valor do código dependente
+        const getCodigoDependenteValue = (value) => {
+          switch (true) {
+            case value.includes("Titular"):
+              return "0";
+            case value.includes("Dependente"):
+              return "1";
+            default:
+              return "";
+          }
+        };
+
         // Filtra as colunas que correspondem a colunasOriginais
-        const filteredData = rows.map((row) =>
-          colunasOriginais.map((col) => row[columnNames.indexOf(col)] || "")
-        );
+        const filteredData = rows.map((row) => {
+          return colunasOriginais.map((col) => {
+            const normalizedCol = normalizeColumnName(col);
+            const colIndex = columnNames.indexOf(normalizedCol);
+
+            switch (col) {
+              case "NrApolice":
+                return columnIndexes.contratoIndex !== -1
+                  ? row[columnIndexes.contratoIndex] || ""
+                  : "";
+              case "CodigoSubFatura":
+                return 0;
+              case "DescricaoSubFatura":
+                return columnIndexes.descricaoSubFaturaIndex !== -1
+                  ? row[columnIndexes.descricaoSubFaturaIndex] || ""
+                  : "";
+              case "CodigoBeneficiario":
+                return columnIndexes.codigoBeneficiarioIndex !== -1
+                  ? (
+                      row[columnIndexes.codigoBeneficiarioIndex] || ""
+                    ).toString()
+                  : "";
+              case "NumeroCertificado":
+                return columnIndexes.numeroCertificadoIndex !== -1
+                  ? (row[columnIndexes.numeroCertificadoIndex] || "").toString()
+                  : "";
+              case "CodigoDependente":
+                return columnIndexes.codigoDependenteIndex !== -1
+                  ? getCodigoDependenteValue(
+                      row[columnIndexes.codigoDependenteIndex] || ""
+                    )
+                  : "";
+              case "NomeBeneficiario":
+                return columnIndexes.nomeBeneficiarioIndex !== -1
+                  ? toUpperCase(row[columnIndexes.nomeBeneficiarioIndex] || "")
+                  : "";
+              case "DataNascimento":
+                return columnIndexes.dtNacimentoIndex !== -1
+                  ? excelDateToString(row[columnIndexes.dtNacimentoIndex] || "")
+                  : "";
+              case "NrOperadora":
+                return defaultValues.NrOperadora;
+              case "DataCompetencia":
+                return defaultValues.DataCompetencia;
+              default:
+                return colIndex !== -1 ? (row[colIndex] || "").toString() : "";
+            }
+          });
+        });
 
         // Adiciona os cabeçalhos ao início dos dados filtrados
         filteredData.unshift(colunasOriginais);
@@ -101,15 +220,14 @@ const findAndProcessFile = (directory) => {
         file.includes("NANSEN INSTRUMENTOS") && path.extname(file) === ".xlsx"
     );
 
-    if (targetFile) {
-      const filePath = path.join(directory, targetFile);
-      console.log(`Arquivo encontrado: ${filePath}`);
-      processExcelFile(filePath);
-    } else {
+    if (!targetFile) {
       console.error(
         'Nenhum arquivo encontrado com "NANSEN INSTRUMENTOS" no nome.'
       );
     }
+    const filePath = path.join(directory, targetFile);
+    console.log(`Arquivo encontrado: ${filePath}`);
+    processExcelFile(filePath);
   });
 };
 
