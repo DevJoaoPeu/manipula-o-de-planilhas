@@ -17,7 +17,8 @@ const toUpperCase = (text) => {
 
 // Função para converter número de série de data do Excel para o formato DD/MM/YYYY
 const excelDateToString = (num) => {
-  const date = new Date((num - 25569) * 86400 * 1000);
+  // Ajusta o número de série de data do Excel, adicionando 1 dia para corrigir o erro do Excel
+  const date = new Date((num - 25569) * 86400 * 1000 + 86400 * 1000);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
