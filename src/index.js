@@ -129,6 +129,15 @@ const processExcelFile = (filePath) => {
           descricaoPlanoIndex: columnNames.indexOf(
             normalizeColumnName("plano")
           ),
+          dtInicioVigenciaIndex: columnNames.indexOf(
+            normalizeColumnName("Dt adesao")
+          ),
+          titularIndex: columnNames.indexOf(normalizeColumnName("titular")),
+          dtAdimissaoIndex: columnNames.indexOf(
+            normalizeColumnName("Dt admissao")
+          ),
+          matriculaIndex: columnNames.indexOf(normalizeColumnName("matricula")),
+          municipioIndex: columnNames.indexOf(normalizeColumnName("municipio")),
         };
 
         // Verifica se os índices estão corretos
@@ -196,6 +205,36 @@ const processExcelFile = (filePath) => {
                   ? extractBeforeDash(
                       row[columnIndexes.descricaoPlanoIndex] || ""
                     )
+                  : "";
+              case "DataInicioVigencia":
+                return columnIndexes.dtInicioVigenciaIndex !== -1
+                  ? excelDateToString(
+                      row[columnIndexes.dtInicioVigenciaIndex] || ""
+                    )
+                  : "";
+              case "NomeMae":
+                return columnIndexes.titularIndex !== -1
+                  ? toUpperCase(row[columnIndexes.titularIndex] || "")
+                  : "";
+              case "CodigoGrauParentesco":
+                return columnIndexes.codigoDependenteIndex !== -1
+                  ? row[columnIndexes.codigoDependenteIndex] || ""
+                  : "";
+              case "DescricaoGrauParentesco":
+                return columnIndexes.codigoDependenteIndex !== -1
+                  ? row[columnIndexes.codigoDependenteIndex] || ""
+                  : "";
+              case "DataAdmissao":
+                return columnIndexes.dtAdimissaoIndex !== -1
+                  ? excelDateToString(row[columnIndexes.dtAdimissaoIndex] || "")
+                  : "";
+              case "MatriculaFuncional":
+                return columnIndexes.matriculaIndex !== -1
+                  ? row[columnIndexes.matriculaIndex] || ""
+                  : "";
+              case "Cidade":
+                return columnIndexes.municipioIndex !== -1
+                  ? row[columnIndexes.municipioIndex] || ""
                   : "";
               case "NrOperadora":
                 return defaultValues.NrOperadora;
