@@ -17,6 +17,9 @@ const toUpperCase = (text) => {
 
 // Função para converter número de série de data do Excel para o formato DD/MM/YYYY
 const excelDateToString = (num) => {
+  if (typeof num !== "number" || isNaN(num) || num <= 0) {
+    return ""; // Retorna uma string vazia para valores não válidos
+  }
   const date = new Date((num - 25569) * 86400 * 1000 + 86400 * 1000);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -194,7 +197,7 @@ const processExcelFile = (filePath) => {
                   : "";
               case "DataNascimento":
                 return columnIndexes.dtNacimentoIndex !== -1
-                  ? excelDateToString(row[columnIndexes.dtNacimentoIndex] || "")
+                  ? excelDateToString(row[columnIndexes.dtNacimentoIndex] || 0)
                   : "";
               case "CodigoPlano":
                 return columnIndexes.codigoPlanoIndex !== -1
@@ -209,7 +212,7 @@ const processExcelFile = (filePath) => {
               case "DataInicioVigencia":
                 return columnIndexes.dtInicioVigenciaIndex !== -1
                   ? excelDateToString(
-                      row[columnIndexes.dtInicioVigenciaIndex] || ""
+                      row[columnIndexes.dtInicioVigenciaIndex] || 0
                     )
                   : "";
               case "NomeMae":
@@ -226,7 +229,7 @@ const processExcelFile = (filePath) => {
                   : "";
               case "DataAdmissao":
                 return columnIndexes.dtAdimissaoIndex !== -1
-                  ? excelDateToString(row[columnIndexes.dtAdimissaoIndex] || "")
+                  ? excelDateToString(row[columnIndexes.dtAdimissaoIndex] || 0)
                   : "";
               case "MatriculaFuncional":
                 return columnIndexes.matriculaIndex !== -1
