@@ -267,8 +267,42 @@ const processExcelFile = (filePath) => {
     );
     xlsx.writeFile(newWorkbook, newFilePath);
     console.log(`Novo arquivo criado: ${newFilePath}`);
+
+    // Converte o arquivo Excel para TXT separado por tabulação
+    convertExcelToTabDelimitedTxt(newFilePath);
   } catch (err) {
     console.error(`Erro ao processar o arquivo Excel: ${err.message}`);
+  }
+};
+
+// Função para converter o arquivo Excel em um arquivo TXT separado por tabulação
+const convertExcelToTabDelimitedTxt = (filePath) => {
+  try {
+    // Lê o arquivo Excel
+    const workbook = xlsx.readFile(filePath);
+
+    // Itera sobre todas as planilhas no arquivo
+    workbook.SheetNames.forEach((sheetName) => {
+      const sheet = workbook.Sheets[sheetName];
+
+      // Converte a planilha em JSON
+      const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+
+      // Verifica se há dados na planilha
+      if (data.length > 0) {
+        const tabDelimitedText = data.map((row) => row.join("\t")).join("\n");
+
+        // Salva o arquivo TXT
+        const txtFilePath = path.join(
+          path.dirname(filePath),
+          "filtered_output.txt"
+        );
+        fs.writeFileSync(txtFilePath, tabDelimitedText, "utf8");
+        console.log(`Arquivo TXT criado: ${txtFilePath}`);
+      }
+    });
+  } catch (err) {
+    console.error(`Erro ao converter o arquivo Excel para TXT: ${err.message}`);
   }
 };
 
@@ -289,7 +323,9 @@ const findAndProcessFile = (directory) => {
       console.error(
         'Nenhum arquivo encontrado com "NANSEN INSTRUMENTOS" no nome.'
       );
+      return;
     }
+
     const filePath = path.join(directory, targetFile);
     console.log(`Arquivo encontrado: ${filePath}`);
     processExcelFile(filePath);
