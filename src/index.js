@@ -17,12 +17,23 @@ const toUpperCase = (text) => {
 
 // Função para converter número de série de data do Excel para o formato DD/MM/YYYY
 const excelDateToString = (num) => {
-  // Ajusta o número de série de data do Excel, adicionando 1 dia para corrigir o erro do Excel
   const date = new Date((num - 25569) * 86400 * 1000 + 86400 * 1000);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
+};
+
+// Função para extrair apenas o número de uma string
+const extractNumber = (text) => {
+  const match = text.match(/\d+/);
+  return match ? match[0] : "";
+};
+
+// Função para extrair a parte do texto antes do `-`
+const extractBeforeDash = (text) => {
+  const index = text.indexOf(" -");
+  return index !== -1 ? text.substring(0, index).trim() : text.trim();
 };
 
 const colunasOriginais = [
@@ -96,9 +107,6 @@ const processExcelFile = (filePath) => {
           codigoSubFaturaIndex: columnNames.indexOf(
             normalizeColumnName("codigosubfatura")
           ),
-          descricaoSubFaturaIndex: columnNames.indexOf(
-            normalizeColumnName("descricaosubfatura")
-          ),
           contratanteIndex: columnNames.indexOf(
             normalizeColumnName("contratante")
           ),
@@ -116,6 +124,10 @@ const processExcelFile = (filePath) => {
           ),
           dtNacimentoIndex: columnNames.indexOf(
             normalizeColumnName("dtnascimento")
+          ),
+          codigoPlanoIndex: columnNames.indexOf(normalizeColumnName("plano")),
+          descricaoPlanoIndex: columnNames.indexOf(
+            normalizeColumnName("plano")
           ),
         };
 
@@ -148,8 +160,8 @@ const processExcelFile = (filePath) => {
               case "CodigoSubFatura":
                 return 0;
               case "DescricaoSubFatura":
-                return columnIndexes.descricaoSubFaturaIndex !== -1
-                  ? row[columnIndexes.descricaoSubFaturaIndex] || ""
+                return columnIndexes.contratanteIndex !== -1
+                  ? row[columnIndexes.contratanteIndex] || ""
                   : "";
               case "CodigoBeneficiario":
                 return columnIndexes.codigoBeneficiarioIndex !== -1
@@ -174,6 +186,16 @@ const processExcelFile = (filePath) => {
               case "DataNascimento":
                 return columnIndexes.dtNacimentoIndex !== -1
                   ? excelDateToString(row[columnIndexes.dtNacimentoIndex] || "")
+                  : "";
+              case "CodigoPlano":
+                return columnIndexes.codigoPlanoIndex !== -1
+                  ? extractNumber(row[columnIndexes.codigoPlanoIndex] || "")
+                  : "";
+              case "DescricaoPlano":
+                return columnIndexes.descricaoPlanoIndex !== -1
+                  ? extractBeforeDash(
+                      row[columnIndexes.descricaoPlanoIndex] || ""
+                    )
                   : "";
               case "NrOperadora":
                 return defaultValues.NrOperadora;
