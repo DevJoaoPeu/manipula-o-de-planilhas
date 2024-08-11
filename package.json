@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "nansen": "node src/beneficiarios/nansenBnf.js",
-    "ox": "node src/beneficiarios/oxBikeBnf.js"
+    "nansen": "node src/samel/beneficiarios/nansenBnf.js",
+    "ox": "node src/samel/beneficiarios/oxBikeBnf.js",
+    "creathus": "node src/samel/beneficiarios/creathusBnf.js",
+    "conecthus": "node src/samel/beneficiarios/conecthusBnf.js",
+    "dunorte": "node src/samel/beneficiarios/duNorteBnf.js"
   },
   "keywords": [],
   "author": "",
