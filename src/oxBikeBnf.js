@@ -7,48 +7,13 @@ import {
   extractNumber,
   normalizeColumnName,
   toUpperCase,
+  colunasOriginaisBnf,
 } from "./util/utils.js";
-
-const colunasOriginais = [
-  "NrOperadora",
-  "NrApolice",
-  "DataCompetencia",
-  "CodigoEstipulante",
-  "DescricaoEstipulante",
-  "CodigoSubEstipulante",
-  "DescricaoSubEstipulante",
-  "CodigoSubFatura",
-  "DescricaoSubFatura",
-  "CodigoBeneficiario",
-  "NumeroCertificado",
-  "CodigoDependente",
-  "NomeBeneficiario",
-  "DataNascimento",
-  "Sexo",
-  "CodigoPlano",
-  "DescricaoPlano",
-  "DataInicioVigencia",
-  "DataFimVigencia",
-  "Cargo",
-  "NomeMae",
-  "EstadoCivil",
-  "CPF",
-  "CodigoGrauParentesco",
-  "DescricaoGrauParentesco",
-  "PISPASEP",
-  "DataAdmissao",
-  "MatriculaFuncional",
-  "DataFalecimento",
-  "Idade",
-  "Estado",
-  "Cidade",
-  "Status",
-  "AcomodacaoPlano",
-];
 
 const defaultValues = {
   NrOperadora: "367095",
   DataCompetencia: "01/06/2024",
+  Plano: "MASTER EMPRESARIAL",
 };
 
 // Função para processar o arquivo Excel e criar uma nova planilha
@@ -99,18 +64,13 @@ const processExcelFile = (filePath) => {
             normalizeColumnName("dtnascimento")
           ),
           codigoPlanoIndex: columnNames.indexOf(normalizeColumnName("plano")),
-          descricaoPlanoIndex: columnNames.indexOf(
-            normalizeColumnName("plano")
-          ),
           dtInicioVigenciaIndex: columnNames.indexOf(
             normalizeColumnName("Dt adesao")
           ),
-          titularIndex: columnNames.indexOf(normalizeColumnName("titular")),
           dtAdimissaoIndex: columnNames.indexOf(
             normalizeColumnName("Dt admissao")
           ),
           matriculaIndex: columnNames.indexOf(normalizeColumnName("matricula")),
-          municipioIndex: columnNames.indexOf(normalizeColumnName("municipio")),
         };
 
         // Verifica se os índices estão corretos
@@ -128,9 +88,9 @@ const processExcelFile = (filePath) => {
           }
         };
 
-        // Filtra as colunas que correspondem a colunasOriginais
+        // Filtra as colunas que correspondem a colunasOriginaisBnf
         const filteredData = rows.map((row) => {
-          return colunasOriginais.map((col) => {
+          return colunasOriginaisBnf.map((col) => {
             const normalizedCol = normalizeColumnName(col);
             const colIndex = columnNames.indexOf(normalizedCol);
 
@@ -170,24 +130,14 @@ const processExcelFile = (filePath) => {
                   ? excelDateToString(row[columnIndexes.dtNacimentoIndex] || 0)
                   : "";
               case "CodigoPlano":
-                return columnIndexes.codigoPlanoIndex !== -1
-                  ? extractNumber(row[columnIndexes.codigoPlanoIndex] || "")
-                  : "";
+                return defaultValues.Plano;
               case "DescricaoPlano":
-                return columnIndexes.descricaoPlanoIndex !== -1
-                  ? extractBeforeDash(
-                      row[columnIndexes.descricaoPlanoIndex] || ""
-                    )
-                  : "";
+                return defaultValues.Plano;
               case "DataInicioVigencia":
                 return columnIndexes.dtInicioVigenciaIndex !== -1
                   ? excelDateToString(
                       row[columnIndexes.dtInicioVigenciaIndex] || 0
                     )
-                  : "";
-              case "NomeMae":
-                return columnIndexes.titularIndex !== -1
-                  ? toUpperCase(row[columnIndexes.titularIndex] || "")
                   : "";
               case "CodigoGrauParentesco":
                 return columnIndexes.codigoDependenteIndex !== -1
@@ -205,10 +155,6 @@ const processExcelFile = (filePath) => {
                 return columnIndexes.matriculaIndex !== -1
                   ? row[columnIndexes.matriculaIndex] || ""
                   : "";
-              case "Cidade":
-                return columnIndexes.municipioIndex !== -1
-                  ? row[columnIndexes.municipioIndex] || ""
-                  : "";
               case "NrOperadora":
                 return defaultValues.NrOperadora;
               case "DataCompetencia":
@@ -220,7 +166,7 @@ const processExcelFile = (filePath) => {
         });
 
         // Adiciona os cabeçalhos ao início dos dados filtrados
-        filteredData.unshift(colunasOriginais);
+        filteredData.unshift(colunasOriginaisBnf);
 
         // Cria uma nova planilha com os dados filtrados
         const newSheet = xlsx.utils.aoa_to_sheet(filteredData);
