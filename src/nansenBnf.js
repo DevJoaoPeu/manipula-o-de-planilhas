@@ -263,7 +263,7 @@ const processExcelFile = (filePath) => {
     // Salva o novo arquivo Excel
     const newFilePath = path.join(
       path.dirname(filePath),
-      "filtered_output.xlsx"
+      "BeneficiarioMetainfo.xlsx"
     );
     xlsx.writeFile(newWorkbook, newFilePath);
     console.log(`Novo arquivo criado: ${newFilePath}`);
@@ -295,7 +295,7 @@ const convertExcelToTabDelimitedTxt = (filePath) => {
         // Salva o arquivo TXT
         const txtFilePath = path.join(
           path.dirname(filePath),
-          "filtered_output.txt"
+          "BeneficiarioMetainfo.txt"
         );
         fs.writeFileSync(txtFilePath, tabDelimitedText, "utf8");
         console.log(`Arquivo TXT criado: ${txtFilePath}`);
