@@ -7,44 +7,8 @@ import {
   extractNumber,
   normalizeColumnName,
   toUpperCase,
+  colunasOriginaisBnf,
 } from "./util/utils.js";
-
-const colunasOriginais = [
-  "NrOperadora",
-  "NrApolice",
-  "DataCompetencia",
-  "CodigoEstipulante",
-  "DescricaoEstipulante",
-  "CodigoSubEstipulante",
-  "DescricaoSubEstipulante",
-  "CodigoSubFatura",
-  "DescricaoSubFatura",
-  "CodigoBeneficiario",
-  "NumeroCertificado",
-  "CodigoDependente",
-  "NomeBeneficiario",
-  "DataNascimento",
-  "Sexo",
-  "CodigoPlano",
-  "DescricaoPlano",
-  "DataInicioVigencia",
-  "DataFimVigencia",
-  "Cargo",
-  "NomeMae",
-  "EstadoCivil",
-  "CPF",
-  "CodigoGrauParentesco",
-  "DescricaoGrauParentesco",
-  "PISPASEP",
-  "DataAdmissao",
-  "MatriculaFuncional",
-  "DataFalecimento",
-  "Idade",
-  "Estado",
-  "Cidade",
-  "Status",
-  "AcomodacaoPlano",
-];
 
 const defaultValues = {
   NrOperadora: "367095",
@@ -128,9 +92,9 @@ const processExcelFile = (filePath) => {
           }
         };
 
-        // Filtra as colunas que correspondem a colunasOriginais
+        // Filtra as colunas que correspondem a colunasOriginaisBnf
         const filteredData = rows.map((row) => {
-          return colunasOriginais.map((col) => {
+          return colunasOriginaisBnf.map((col) => {
             const normalizedCol = normalizeColumnName(col);
             const colIndex = columnNames.indexOf(normalizedCol);
 
@@ -220,7 +184,7 @@ const processExcelFile = (filePath) => {
         });
 
         // Adiciona os cabeçalhos ao início dos dados filtrados
-        filteredData.unshift(colunasOriginais);
+        filteredData.unshift(colunasOriginaisBnf);
 
         // Cria uma nova planilha com os dados filtrados
         const newSheet = xlsx.utils.aoa_to_sheet(filteredData);
