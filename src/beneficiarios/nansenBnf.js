@@ -8,7 +8,7 @@ import {
   normalizeColumnName,
   toUpperCase,
   colunasOriginaisBnf,
-} from "./util/utils.js";
+} from "../util/utils.js";
 
 const defaultValues = {
   NrOperadora: "367095",

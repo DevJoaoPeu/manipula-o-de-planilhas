@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "nansen": "node src/nansenBnf.js",
-    "ox": "node src/oxBikeBnf.js"
+    "nansen": "node src/beneficiarios/nansenBnf.js",
+    "ox": "node src/beneficiarios/oxBikeBnf.js"
   },
   "keywords": [],
   "author": "",
