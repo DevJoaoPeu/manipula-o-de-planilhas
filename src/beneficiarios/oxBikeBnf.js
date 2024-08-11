@@ -6,6 +6,7 @@ import {
   normalizeColumnName,
   toUpperCase,
   colunasOriginaisBnf,
+  getCodigoDependenteValue,
 } from "../util/utils.js";
 
 const defaultValues = {
@@ -73,18 +74,6 @@ const processExcelFile = (filePath) => {
 
         // Verifica se os índices estão corretos
         console.log(columnIndexes);
-
-        // Função para determinar o valor do código dependente
-        const getCodigoDependenteValue = (value) => {
-          switch (true) {
-            case value.includes("Titular"):
-              return "0";
-            case value.includes("Dependente"):
-              return "1";
-            default:
-              return "";
-          }
-        };
 
         // Filtra as colunas que correspondem a colunasOriginaisBnf
         const filteredData = rows.map((row) => {
