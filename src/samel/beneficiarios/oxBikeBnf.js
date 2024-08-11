@@ -41,9 +41,6 @@ const processExcelFile = (filePath) => {
         // Identifica os índices das colunas relevantes
         const columnIndexes = {
           contratoIndex: columnNames.indexOf(normalizeColumnName("contrato")),
-          codigoSubFaturaIndex: columnNames.indexOf(
-            normalizeColumnName("codigosubfatura")
-          ),
           contratanteIndex: columnNames.indexOf(
             normalizeColumnName("contratante")
           ),
@@ -62,7 +59,6 @@ const processExcelFile = (filePath) => {
           dtNacimentoIndex: columnNames.indexOf(
             normalizeColumnName("dtnascimento")
           ),
-          codigoPlanoIndex: columnNames.indexOf(normalizeColumnName("plano")),
           dtInicioVigenciaIndex: columnNames.indexOf(
             normalizeColumnName("Dt adesao")
           ),
