@@ -7,7 +7,8 @@
     "ox": "node src/samel/beneficiarios/oxBikeBnf.js",
     "creathus": "node src/samel/beneficiarios/creathusBnf.js",
     "conecthus": "node src/samel/beneficiarios/conecthusBnf.js",
-    "dunorte": "node src/samel/beneficiarios/duNorteBnf.js"
+    "dunorte": "node src/samel/beneficiarios/duNorteBnf.js",
+    "tectoy": "node src/samel/beneficiarios/tectoyBnf.js"
   },
   "keywords": [],
   "author": "",
