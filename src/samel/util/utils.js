@@ -35,6 +35,12 @@ export const extractBeforeDash = (text) => {
   return index !== -1 ? text.substring(0, index).trim() : text.trim();
 };
 
+// Função para separar depois do espaço
+export const extractBeforeSpace = (text) => {
+  const index = text.indexOf(" ");
+  return index !== -1 ? text.substring(0, index).trim() : text.trim();
+};
+
 //Função para determinar se é titular ou dependente
 export const getCodigoDependenteValue = (value) => {
   switch (true) {
@@ -42,6 +48,20 @@ export const getCodigoDependenteValue = (value) => {
       return "0";
     case value.includes("Dependente"):
       return "1";
+    default:
+      return "";
+  }
+};
+
+//Função para definir tpo do plano
+export const getTypePlano = (value) => {
+  switch (true) {
+    case value.includes(
+      "Coletivo Empresarial Master - Protocolo ANS: 414538991"
+    ):
+      return "MASTER EMPRESARIAL";
+    case value.includes("Master Executivo - Protocolo ANS: 478519173"):
+      return "MASTER EXECUTIVO";
     default:
       return "";
   }
