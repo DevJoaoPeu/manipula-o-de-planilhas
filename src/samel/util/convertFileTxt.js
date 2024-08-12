@@ -24,6 +24,7 @@ export const convertExcelToTabDelimitedTxt = (filePath, nameFile) => {
           path.dirname(filePath),
           `${nameFile}.txt`
         );
+
         fs.writeFileSync(txtFilePath, tabDelimitedText, "utf8");
         console.log(`Arquivo TXT criado: ${txtFilePath}`);
       }
