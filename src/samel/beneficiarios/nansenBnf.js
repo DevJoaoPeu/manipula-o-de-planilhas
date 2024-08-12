@@ -9,6 +9,7 @@ import {
   toUpperCase,
   colunasOriginaisBnf,
   getCodigoDependenteValue,
+  nameBnf,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
 
@@ -185,15 +186,12 @@ const processExcelFile = (filePath) => {
     });
 
     // Salva o novo arquivo Excel
-    const newFilePath = path.join(
-      path.dirname(filePath),
-      "BeneficiarioMetainfo.xlsx"
-    );
+    const newFilePath = path.join(path.dirname(filePath), `${nameBnf}.xlsx`);
     xlsx.writeFile(newWorkbook, newFilePath);
     console.log(`Novo arquivo criado: ${newFilePath}`);
 
     // Converte o arquivo Excel para TXT separado por tabulação
-    convertExcelToTabDelimitedTxt(newFilePath);
+    convertExcelToTabDelimitedTxt(newFilePath, nameBnf);
   } catch (err) {
     console.error(`Erro ao processar o arquivo Excel: ${err.message}`);
   }

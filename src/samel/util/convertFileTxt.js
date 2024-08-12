@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 
 // Função para converter o arquivo Excel em um arquivo TXT separado por tabulação
-export const convertExcelToTabDelimitedTxt = (filePath) => {
+export const convertExcelToTabDelimitedTxt = (filePath, nameFile) => {
   try {
     // Lê o arquivo Excel
     const workbook = xlsx.readFile(filePath);
@@ -22,7 +22,7 @@ export const convertExcelToTabDelimitedTxt = (filePath) => {
         // Salva o arquivo TXT
         const txtFilePath = path.join(
           path.dirname(filePath),
-          "BeneficiarioMetainfo.txt"
+          `${nameFile}.txt`
         );
         fs.writeFileSync(txtFilePath, tabDelimitedText, "utf8");
         console.log(`Arquivo TXT criado: ${txtFilePath}`);

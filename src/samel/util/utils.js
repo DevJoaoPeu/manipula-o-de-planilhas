@@ -7,6 +7,9 @@ export const normalizeColumnName = (name) => {
     .replace(/[^a-z0-9]/g, "");
 };
 
+export const nameBnf = "BeneficiarioMetainfo";
+export const nameUtil = "Utilizacao";
+
 export const toUpperCase = (text) => {
   return text.toUpperCase();
 };
@@ -102,4 +105,40 @@ export const colunasOriginaisBnf = [
   "Cidade",
   "Status",
   "AcomodacaoPlano",
+];
+
+export const colunasOriginaisUtil = [
+  "Data",
+  "TipoInternacao",
+  "CaraterAtendimento",
+  "TipoConta",
+  "Atendimento",
+  "Autorizacao",
+  "CodTuss",
+  "EventoTuss",
+  "NrSeqProcedInterno",
+  "NmProced",
+  "TipoServico",
+  "TipoConsulta",
+  "Apolice",
+  "Contratante",
+  "Plano",
+  "CodBeneficiario",
+  "Beneficiario",
+  "Sexo",
+  "DataNascimento",
+  "MatCliente",
+  "MatSamel",
+  "TipoDependente",
+  "Titular",
+  "Prestador",
+  "Especialidade",
+  "Qtde",
+  "Valor",
+  "ValorTotal",
+  "SeContinuidade",
+  "DtContratacao",
+  "DiasAdesao",
+  "CidDoenca",
+  "SubEstipulante",
 ];
