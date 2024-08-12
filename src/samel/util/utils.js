@@ -116,7 +116,7 @@ export const colunasOriginaisUtil = [
   "Autorizacao",
   "CodTuss",
   "EventoTuss",
-  "NrSeqProcedInterno",
+  "NrSeqProcInterno",
   "NmProced",
   "TipoServico",
   "TipoConsulta",

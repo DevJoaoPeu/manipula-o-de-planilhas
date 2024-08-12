@@ -8,7 +8,8 @@
     "creathus": "node src/samel/beneficiarios/creathusBnf.js",
     "conecthus": "node src/samel/beneficiarios/conecthusBnf.js",
     "dunorte": "node src/samel/beneficiarios/duNorteBnf.js",
-    "tectoy": "node src/samel/beneficiarios/tectoyBnf.js"
+    "tectoy": "node src/samel/beneficiarios/tectoyBnf.js",
+    "nansenUtil": "node src/samel/utilizacao/nansenUtil.js"
   },
   "keywords": [],
   "author": "",
