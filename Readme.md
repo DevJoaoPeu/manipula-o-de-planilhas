@@ -27,7 +27,7 @@ Para instalar o projeto, siga estes passos:
 Para rodar o arquivo de beneficiário Samel, use o comando:
 
 ```bash
-yarn "nome da empresa" "caminho do arquivo"
+npm run "nome da empresa" "caminho do arquivo"
 ```
 
 **Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
@@ -37,7 +37,7 @@ yarn "nome da empresa" "caminho do arquivo"
 Para rodar o arquivo de utilização Samel, use o comando:
 
 ```bash
-yarn util "nome do arquivo" "caminho do arquivo"
+npm run util "nome do arquivo" "caminho do arquivo"
 ```
 
 ## Merge de Arquivos `.txt`
@@ -45,10 +45,9 @@ yarn util "nome do arquivo" "caminho do arquivo"
 Para mesclar arquivos `.txt`, use o comando:
 
 ```bash
-yarn merge "true - se o arquivo tiver cabeçalho, false - se não tiver" "caminho do arquivo"
+npm run merge "true - se o arquivo tiver cabeçalho, false - se não tiver" "caminho do arquivo"
 ```
 
 ## Contato
 
 Você pode me encontrar no LinkedIn: [Seu Nome](https://www.linkedin.com/in/seu-nome)
-
