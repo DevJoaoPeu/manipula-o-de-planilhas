@@ -10,13 +10,9 @@ import {
   colunasOriginaisBnf,
   getCodigoDependenteValue,
   nameBnf,
+  defaultValues,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
-
-const defaultValues = {
-  NrOperadora: "367095",
-  DataCompetencia: "01/06/2024",
-};
 
 // Função para processar o arquivo Excel e criar uma nova planilha
 const processExcelFile = (filePath) => {

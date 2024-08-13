@@ -8,14 +8,9 @@ import {
   colunasOriginaisBnf,
   getCodigoDependenteValue,
   nameBnf,
+  defaultValues,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
-
-const defaultValues = {
-  NrOperadora: "367095",
-  DataCompetencia: "01/06/2024",
-  Plano: "MASTER EMPRESARIAL",
-};
 
 // Função para processar o arquivo Excel e criar uma nova planilha
 const processExcelFile = (filePath) => {
@@ -115,9 +110,9 @@ const processExcelFile = (filePath) => {
                   ? excelDateToString(row[columnIndexes.dtNacimentoIndex] || 0)
                   : "";
               case "CodigoPlano":
-                return defaultValues.Plano;
+                return defaultValues.Plano1;
               case "DescricaoPlano":
-                return defaultValues.Plano;
+                return defaultValues.Plano1;
               case "DataInicioVigencia":
                 return columnIndexes.dtInicioVigenciaIndex !== -1
                   ? excelDateToString(

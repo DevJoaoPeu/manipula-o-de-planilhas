@@ -79,6 +79,13 @@ export const formatDate = (text) => {
   return ""; // Retorna uma string vazia para valores não válidos
 };
 
+export const defaultValues = {
+  NrOperadora: "367095",
+  DataCompetencia: "01/06/2024",
+  Plano1: "MASTER EMPRESARIAL",
+  Plano2: "MASTER EXECUTIVO",
+};
+
 export const colunasOriginaisBnf = [
   "NrOperadora",
   "NrApolice",
