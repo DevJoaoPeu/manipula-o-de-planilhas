@@ -9,7 +9,8 @@
     "conecthus": "node src/samel/beneficiarios/conecthusBnf.js",
     "dunorte": "node src/samel/beneficiarios/duNorteBnf.js",
     "tectoy": "node src/samel/beneficiarios/tectoyBnf.js",
-    "util": "node src/samel/utilizacao/utilizacao.js"
+    "util": "node src/samel/utilizacao/utilizacao.js",
+    "merge": "node src/mesclarTxt/merge.js"
   },
   "keywords": [],
   "author": "",
