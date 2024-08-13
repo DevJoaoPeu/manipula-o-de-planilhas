@@ -70,6 +70,15 @@ export const getTypePlano = (value) => {
   }
 };
 
+export const formatDate = (text) => {
+  // Verifica se a string contém um espaço (indicando que é uma data e hora)
+  if (typeof text === "string" && text.includes(" ")) {
+    // Extrai a data e hora no formato desejado
+    return text.trim();
+  }
+  return ""; // Retorna uma string vazia para valores não válidos
+};
+
 export const colunasOriginaisBnf = [
   "NrOperadora",
   "NrApolice",

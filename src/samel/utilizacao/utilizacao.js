@@ -3,7 +3,7 @@ import path from "path";
 import xlsx from "xlsx";
 import { normalizeColumnName, nameUtil, toUpperCase } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
-import { colunasOriginaisUtil } from "../util/utils.js";
+import { colunasOriginaisUtil, formatDate } from "../util/utils.js";
 
 // Função para processar o arquivo Excel e criar uma nova planilha
 const processExcelFile = (filePath) => {
@@ -43,7 +43,15 @@ const processExcelFile = (filePath) => {
       const filteredData = rows.map((row) => {
         return colunasOriginaisUtil.map((col) => {
           const colIndex = columnIndexes[col];
-          return colIndex !== -1 ? (row[colIndex] || "").toString() : "";
+          let cellValue =
+            colIndex !== -1 ? (row[colIndex] || "").toString() : "";
+
+          // Aplica a função formatDate à coluna "Data"
+          if (normalizeColumnName(col) === normalizeColumnName("Data")) {
+            cellValue = formatDate(cellValue);
+          }
+
+          return cellValue;
         });
       });
 
