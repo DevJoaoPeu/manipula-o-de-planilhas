@@ -25,3 +25,7 @@ Para mesclar arquivos `.txt`, use o comando:
 ```bash
 yarn merge "true - se o arquivo tiver cabeçalho, false - se não tiver" "caminho do arquivo"
 ```
+
+## Contato
+
+Você pode me encontrar no LinkedIn: [João Pedro](https://www.linkedin.com/in/joao-pedro-pereira-/)
