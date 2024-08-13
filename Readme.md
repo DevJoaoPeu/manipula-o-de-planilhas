@@ -1,5 +1,27 @@
 # Comandos para Rodar Arquivos e Merge
 
+## Instalação do Projeto
+
+Para instalar o projeto, siga estes passos:
+
+1. Clone o repositório usando o comando:
+
+   ```bash
+   git clone https://github.com/DevJoaoPeu/manipula-o-de-planilhas
+   ```
+
+2. Navegue para o diretório do projeto:
+
+   ```bash
+   cd manipula-o-de-planilhas
+   ```
+
+3. Instale as dependências usando o comando:
+
+   ```bash
+   npm i
+   ```
+
 ## Arquivo Beneficiário Samel
 
 Para rodar o arquivo de beneficiário Samel, use o comando:
@@ -28,4 +50,5 @@ yarn merge "true - se o arquivo tiver cabeçalho, false - se não tiver" "caminh
 
 ## Contato
 
-Você pode me encontrar no LinkedIn: [João Pedro](https://www.linkedin.com/in/joao-pedro-pereira-/)
+Você pode me encontrar no LinkedIn: [Seu Nome](https://www.linkedin.com/in/seu-nome)
+
