@@ -50,4 +50,4 @@ npm run merge "true - se o arquivo tiver cabeçalho, false - se não tiver" "cam
 
 ## Contato
 
-Você pode me encontrar no LinkedIn: [Seu Nome](https://www.linkedin.com/in/seu-nome)
+Você pode me encontrar no LinkedIn: [João Pedro](https://www.linkedin.com/in/joao-pedro-pereira-/)
