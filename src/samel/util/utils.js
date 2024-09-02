@@ -81,7 +81,7 @@ export const formatDate = (text) => {
 
 export const defaultValues = {
   NrOperadora: "367095",
-  DataCompetencia: "01/06/2024",
+  DataCompetencia: "01/07/2024",
   Plano1: "MASTER EMPRESARIAL",
   Plano2: "MASTER EXECUTIVO",
 };

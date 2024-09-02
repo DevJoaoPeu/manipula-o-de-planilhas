@@ -51,6 +51,24 @@ const processExcelFile = (filePath) => {
             cellValue = formatDate(cellValue);
           }
 
+          // Verifica e formata as colunas de valores numéricos
+          if (
+            normalizeColumnName(col) === normalizeColumnName("valor") ||
+            normalizeColumnName(col) === normalizeColumnName("valorTotal")
+          ) {
+            // Se o valor é vazio ou zero, define como "0"
+            if (cellValue === "" || cellValue === "0") {
+              cellValue = "0";
+            } else {
+              // Verifica se o valor é numérico
+              const numValue = parseFloat(cellValue.replace(",", "."));
+              if (!isNaN(numValue)) {
+                // Converte ponto para vírgula
+                cellValue = numValue.toFixed(2).replace(".", ",");
+              }
+            }
+          }
+
           return cellValue;
         });
       });
