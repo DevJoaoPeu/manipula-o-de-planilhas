@@ -10,13 +10,17 @@
     "dunorte": "node src/samel/beneficiarios/duNorteBnf.js",
     "tectoy": "node src/samel/beneficiarios/tectoyBnf.js",
     "util": "node src/samel/utilizacao/utilizacao.js",
-    "merge": "node src/mesclarTxt/merge.js"
+    "merge": "node src/mesclarTxt/merge.js",
+    "gndi": "node src/GNDI/sinistro.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "date-fns": "^3.6.0",
+    "iconv-lite": "^0.6.3",
+    "node-adodb": "^5.0.3",
     "xlsx": "^0.18.5"
   },
   "type": "module"
