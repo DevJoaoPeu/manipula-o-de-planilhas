@@ -57,7 +57,7 @@ async function readMdbFile(filePath) {
 
       if (rows.length > 0) {
         // Pega os cabeçalhos das colunas e corrige a codificação
-        const headers = Object.keys(rows[0]).map(fixEncoding);
+        const headers = Object.keys(rows[0]);
 
         // Adiciona o cabeçalho como primeira linha
         let data = headers.join("\t") + "\n";
@@ -66,7 +66,6 @@ async function readMdbFile(filePath) {
         rows.forEach((row) => {
           const rowData = headers.map((header) => {
             let value = row[header];
-            value = fixEncoding(value); // Corrige a codificação
 
             // Verifica e formata as colunas específicas de data
             if (
@@ -93,7 +92,7 @@ async function readMdbFile(filePath) {
         const txtFilePath = filePath.replace(".mdb", ".txt");
 
         // Escrevendo os dados no arquivo .txt
-        fs.writeFileSync(txtFilePath, data);
+        fs.writeFileSync(txtFilePath, data, "latin1");
 
         console.log(`Dados salvos em: ${txtFilePath}`);
       } else {
