@@ -1,45 +1,7 @@
 import ADODB from "node-adodb";
 import path from "path";
 import fs from "fs";
-import iconv from "iconv-lite";
-import { parse, format, isValid } from "date-fns"; // Importando a função isValid
-
-// Função para converter valores numéricos de ponto para vírgula
-function convertNumberFormat(value) {
-  if (typeof value === "number") {
-    return value.toString().replace(".", ",");
-  }
-  return value;
-}
-
-// Função para corrigir a codificação de caracteres
-function fixEncoding(value) {
-  if (typeof value === "string") {
-    return iconv.decode(Buffer.from(value, "binary"), "latin1");
-  }
-  return value;
-}
-
-// Função para formatar datas para o formato dd/mm/aaaa
-function formatDate(value) {
-  if (typeof value === "string" && value.includes("/")) {
-    try {
-      // Tenta fazer o parse da data
-      const parsedDate = parse(value, "dd/MM/yyyy HH:mm:ss", new Date());
-
-      if (isValid(parsedDate)) {
-        // Retorna a data formatada se for válida
-        return format(parsedDate, "dd/MM/yyyy");
-      } else {
-        console.warn(`Data inválida encontrada: ${value}`);
-      }
-    } catch (error) {
-      console.error("Erro ao formatar a data:", error);
-    }
-  }
-  // Retorna o valor original se não for uma data válida
-  return value;
-}
+import { convertNumberFormat, formatDate } from "./utils/util.js";
 
 // Função para ler um arquivo .mdb e salvar os dados em um arquivo .txt formatado por tabulação
 async function readMdbFile(filePath) {
@@ -89,7 +51,12 @@ async function readMdbFile(filePath) {
         });
 
         // Caminho para o arquivo .txt
-        const txtFilePath = filePath.replace(".mdb", ".txt");
+        const baseName = path.basename(filePath, ".mdb");
+        const sanitizedBaseName = baseName;
+        const txtFilePath = path.join(
+          path.dirname(filePath),
+          `Associados ${sanitizedBaseName}.txt`
+        );
 
         // Escrevendo os dados no arquivo .txt
         fs.writeFileSync(txtFilePath, data, "latin1");
