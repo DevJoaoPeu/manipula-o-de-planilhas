@@ -15,11 +15,11 @@ const processExcelFile = (filePath) => {
     const newWorkbook = xlsx.utils.book_new();
 
     // Pega a primeira planilha do workbook
-    const sheetName = workbook.SheetNames[0]; // Nome da primeira planilha
+    const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
 
     // Converte a planilha em JSON, tratando a primeira linha como cabeçalhos
-    const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+    const data = xlsx.utils.sheet_to_json(sheet, { header: 1, raw: false });
 
     // Verifica se há dados na planilha
     if (data.length > 0) {
@@ -51,21 +51,17 @@ const processExcelFile = (filePath) => {
             cellValue = formatDate(cellValue);
           }
 
-          // Verifica e formata as colunas de valores numéricos
+          // Validações para colunas de valores numéricos
           if (
             normalizeColumnName(col) === normalizeColumnName("valor") ||
             normalizeColumnName(col) === normalizeColumnName("valorTotal")
           ) {
-            // Se o valor é vazio ou zero, define como "0"
-            if (cellValue === "" || cellValue === "0") {
-              cellValue = "0";
+            // Preserva o valor original com vírgula e remove o ponto
+            if (cellValue === "0,00" || cellValue === "0" || cellValue === "") {
+              cellValue = "0"; // Mantém como zero
             } else {
-              // Verifica se o valor é numérico
-              const numValue = parseFloat(cellValue.replace(",", "."));
-              if (!isNaN(numValue)) {
-                // Converte ponto para vírgula
-                cellValue = numValue.toFixed(2).replace(".", ",");
-              }
+              // Garante que o valor seja tratado como string e preserve a vírgula
+              cellValue = cellValue.replace(".", "").replace(",", ",");
             }
           }
 
