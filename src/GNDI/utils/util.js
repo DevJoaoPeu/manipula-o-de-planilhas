@@ -49,3 +49,12 @@ export function formatDate(value) {
   // Retorna o valor original se não for uma data válida
   return value;
 }
+
+export const colunsFormatBenef = [
+  "Data de Nascimento",
+  "Data do Atendimento",
+  "Competência",
+  "Data de Adesão ao Plano",
+  "Data de Admissão do Empregado",
+  "Data de Cancelamento",
+];
