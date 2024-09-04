@@ -40,20 +40,12 @@ Para rodar o arquivo de utilização Samel, use o comando:
 npm run util "nome do arquivo" "caminho do arquivo"
 ```
 
-## Arquivo de Sinistro GNDI
+## Arquivos Sinistro/Beneficiario GNDI
 
-Para rodar o arquivo de sinistro GNDI, use o comando:
-
-```bash
-npm run gndi-s "caminho do arquivo"
-```
-
-## Arquivo de Beneficiario GNDI
-
-Para rodar o arquivo de Beneficiario GNDI, use o comando:
+Para rodar o arquivo de Sinistro/Beneficiario GNDI, use o comando:
 
 ```bash
-npm run gndi-b "mm/aaaa" "caminho do arquivo"
+npm run gndi "mm/aaaa" "caminho do arquivo"
 ```
 
 ## Merge de Arquivos `.txt`
