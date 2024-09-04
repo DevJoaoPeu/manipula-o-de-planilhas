@@ -7,21 +7,8 @@ import {
   formatDate,
 } from "./utils/util.js";
 
-const directoryPath = process.argv[3];
-const datePath = process.argv[2];
-class BenefGndi {
-  async verifyPath(directoryPath) {
-    if (!directoryPath) {
-      console.error(
-        "Por favor, forneça o caminho do diretório como argumento."
-      );
-      process.exit(1);
-    }
-
-    await this.readAllMdbFiles(path.resolve(directoryPath));
-  }
-
-  async readAllMdbFiles(directoryPath) {
+export class BenefGndi {
+  async readAllMdbFiles(directoryPath, datePath) {
     try {
       const files = fs.readdirSync(directoryPath);
 
@@ -29,14 +16,14 @@ class BenefGndi {
 
       for (const file of mdbFiles) {
         const filePath = path.join(directoryPath, file);
-        await this.readMdbFile(filePath);
+        await this.readMdbFile(filePath, datePath);
       }
     } catch (error) {
       console.error("Erro ao ler os arquivos do diretório:", error);
     }
   }
 
-  async readMdbFile(filePath) {
+  async readMdbFile(filePath, datePath) {
     try {
       const connection = ADODB.open(
         `Provider=Microsoft.Jet.OLEDB.4.0;Data Source=${filePath};`
@@ -93,7 +80,9 @@ class BenefGndi {
         // Escrevendo os dados no arquivo .txt
         fs.writeFileSync(txtFilePath, data, "latin1");
 
-        console.log(`Processando apólice ${baseName}`);
+        console.log(
+          `Processando arquivo: ${datePath}_Cadastro De Associados ${baseName}.txt`
+        );
       } catch (queryError) {
         console.error(
           `Erro ao executar a consulta para a tabela ${tabelaNome}:`,
@@ -105,5 +94,3 @@ class BenefGndi {
     }
   }
 }
-
-new BenefGndi().verifyPath(directoryPath);

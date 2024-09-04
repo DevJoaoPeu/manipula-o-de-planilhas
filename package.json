@@ -11,8 +11,7 @@
     "tectoy": "node src/samel/beneficiarios/tectoyBnf.js",
     "util": "node src/samel/utilizacao/utilizacao.js",
     "merge": "node src/mesclarTxt/merge.js",
-    "gndi-s": "node src/GNDI/sinistro.js",
-    "gndi-b": "node src/GNDI/benef.js"
+    "gndi": "node src/GNDI/sinistro.js"
   },
   "keywords": [],
   "author": "",
