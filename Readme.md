@@ -40,6 +40,8 @@ Para rodar o arquivo de utilização Samel, use o comando:
 npm run util "nome do arquivo" "caminho do arquivo"
 ```
 
+**Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
+
 ## Arquivos Sinistro/Beneficiario GNDI
 
 Para rodar o arquivo de Sinistro/Beneficiario GNDI, use o comando:
