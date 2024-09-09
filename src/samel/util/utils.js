@@ -1,3 +1,6 @@
+import { format, parse, isValid } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
 // Função para normalizar os nomes das colunas
 export const normalizeColumnName = (name) => {
   return name
@@ -71,12 +74,63 @@ export const getTypePlano = (value) => {
 };
 
 export const formatDate = (text) => {
-  // Verifica se a string contém um espaço (indicando que é uma data e hora)
-  if (typeof text === "string" && text.includes(" ")) {
-    // Extrai a data e hora no formato desejado
-    return text.trim();
+  if (typeof text === "string") {
+    try {
+      let parsedDate;
+
+      // Verifica se a string contém horário (indicada por um espaço e hora)
+      if (!text.includes(" ")) {
+        // Se não houver hora, trata como dd/MM/yyyy e adiciona "00:00"
+        parsedDate = parse(text.trim(), "dd/MM/yyyy", new Date(), {
+          locale: ptBR,
+        });
+
+        // Verifica se a data foi corretamente interpretada
+        if (!isValid(parsedDate)) {
+          // Se falhar, tenta no formato MM/dd/yyyy (caso tenha sido invertido)
+          parsedDate = parse(text.trim(), "MM/dd/yyyy", new Date(), {
+            locale: ptBR,
+          });
+        }
+
+        // Corrige o ano caso esteja com menos de 4 dígitos
+        const fullYear = parsedDate.getFullYear();
+        if (fullYear < 1000) {
+          parsedDate.setFullYear(fullYear + 2000);
+        }
+
+        // Retorna a data no formato correto com "00:00"
+        return format(parsedDate, "dd/MM/yyyy 00:00", { locale: ptBR });
+      } else {
+        // Para datas com hora, tenta tratar como dd/MM/yyyy HH:mm
+        parsedDate = parse(text.trim(), "dd/MM/yyyy HH:mm", new Date(), {
+          locale: ptBR,
+        });
+
+        // Verifica se a data com hora é válida
+        if (!isValid(parsedDate)) {
+          // Se falhar, tenta no formato MM/dd/yyyy HH:mm
+          parsedDate = parse(text.trim(), "MM/dd/yyyy HH:mm", new Date(), {
+            locale: ptBR,
+          });
+        }
+
+        // Corrige o ano caso esteja com menos de 4 dígitos
+        const fullYear = parsedDate.getFullYear();
+        if (fullYear < 1000) {
+          parsedDate.setFullYear(fullYear + 2000);
+        }
+
+        // Retorna a data com a hora recebida no formato correto
+        return format(parsedDate, "dd/MM/yyyy HH:mm", { locale: ptBR });
+      }
+    } catch (error) {
+      console.error("Erro ao processar a data:", error);
+      return ""; // Retorna string vazia em caso de erro
+    }
   }
-  return ""; // Retorna uma string vazia para valores não válidos
+
+  return ""; // Retorna string vazia se o valor não for uma data válida
 };
 
 export const defaultValues = {
