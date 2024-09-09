@@ -57,11 +57,11 @@ const processExcelFile = (filePath) => {
             normalizeColumnName(col) === normalizeColumnName("valorTotal")
           ) {
             // Preserva o valor original com vírgula e remove o ponto
-            if (cellValue === "0,00" || cellValue === "0" || cellValue === "") {
+            if (cellValue === "0,00" || cellValue === "0") {
               cellValue = "0"; // Mantém como zero
             } else {
               // Garante que o valor seja tratado como string e preserve a vírgula
-              cellValue = cellValue.replace(".", "").replace(",", ",");
+              cellValue = cellValue.replace(".", ",");
             }
           }
 
