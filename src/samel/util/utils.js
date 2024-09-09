@@ -76,61 +76,25 @@ export const getTypePlano = (value) => {
 export const formatDate = (text) => {
   if (typeof text === "string") {
     try {
-      let parsedDate;
-
-      // Verifica se a string contém horário (indicada por um espaço e hora)
-      if (!text.includes(" ")) {
-        // Se não houver hora, trata como dd/MM/yyyy e adiciona "00:00"
-        parsedDate = parse(text.trim(), "dd/MM/yyyy", new Date(), {
+      // Verifica se o texto está no formato 'dd/MM/yyyy HH:mm'
+      if (/\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}/.test(text.trim())) {
+        // Tenta parsear a data no formato 'dd/MM/yyyy HH:mm'
+        const parsedDate = parse(text.trim(), "dd/MM/yyyy HH:mm", new Date(), {
           locale: ptBR,
         });
-
-        // Verifica se a data foi corretamente interpretada
-        if (!isValid(parsedDate)) {
-          // Se falhar, tenta no formato MM/dd/yyyy (caso tenha sido invertido)
-          parsedDate = parse(text.trim(), "MM/dd/yyyy", new Date(), {
-            locale: ptBR,
-          });
-        }
-
-        // Corrige o ano caso esteja com menos de 4 dígitos
-        const fullYear = parsedDate.getFullYear();
-        if (fullYear < 1000) {
-          parsedDate.setFullYear(fullYear + 2000);
-        }
-
-        // Retorna a data no formato correto com "00:00"
-        return format(parsedDate, "dd/MM/yyyy 00:00", { locale: ptBR });
-      } else {
-        // Para datas com hora, tenta tratar como dd/MM/yyyy HH:mm
-        parsedDate = parse(text.trim(), "dd/MM/yyyy HH:mm", new Date(), {
-          locale: ptBR,
-        });
-
-        // Verifica se a data com hora é válida
-        if (!isValid(parsedDate)) {
-          // Se falhar, tenta no formato MM/dd/yyyy HH:mm
-          parsedDate = parse(text.trim(), "MM/dd/yyyy HH:mm", new Date(), {
-            locale: ptBR,
-          });
-        }
-
-        // Corrige o ano caso esteja com menos de 4 dígitos
-        const fullYear = parsedDate.getFullYear();
-        if (fullYear < 1000) {
-          parsedDate.setFullYear(fullYear + 2000);
-        }
-
-        // Retorna a data com a hora recebida no formato correto
         return format(parsedDate, "dd/MM/yyyy HH:mm", { locale: ptBR });
+      } else {
+        // Retorna a data padrão se não estiver no formato esperado ou se não contiver hora
+        return `${defaultValues.DataCompetencia} 00:00`;
       }
     } catch (error) {
-      console.error("Erro ao processar a data:", error);
-      return ""; // Retorna string vazia em caso de erro
+      // Retorna a data padrão em caso de erro
+      return `${defaultValues.DataCompetencia} 00:00`;
     }
   }
 
-  return ""; // Retorna string vazia se o valor não for uma data válida
+  // Retorna a data padrão caso o valor não seja uma string válida
+  return `${defaultValues.DataCompetencia} 00:00`;
 };
 
 export const defaultValues = {
