@@ -27,13 +27,19 @@ Para instalar o projeto, siga estes passos:
 Para rodar o arquivo de beneficiário Samel, use o comando:
 
 ```bash
-npm run "nome da empresa" "caminho do arquivo"
+npm run "nome da empresa"
+
+------- Qual o diretório? "caminho do arquivo"
 ```
 
 **Observação:** Para a tectoy, rodar o seguinte comando:
 
 ```bash
-npm run tectoy "nome do arquivo" "caminho do arquivo"
+npm run tectoy
+
+------- Qual o diretório? "caminho do arquivo"
+
+------- Qual nome do arquivo?  "nome do arquivo"
 ```
 
 **Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
@@ -43,7 +49,13 @@ npm run tectoy "nome do arquivo" "caminho do arquivo"
 Para rodar o arquivo de utilização Samel, use o comando:
 
 ```bash
-npm run util "nome do arquivo" "caminho do arquivo"
+npm run util
+
+------- Qual o diretório? "caminho do arquivo"
+
+------- Qual nome do arquivo?  "nome do arquivo"
+
+------- Qual o index da aba?  "index da aba"
 ```
 
 **Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
