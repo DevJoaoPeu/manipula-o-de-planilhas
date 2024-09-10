@@ -30,6 +30,8 @@ Para rodar o arquivo de beneficiário Samel, use o comando:
 npm run "nome da empresa"
 
 ------- Qual o diretório? "caminho do arquivo"
+
+------- Qual a data de competencia desse arquivo? format(dd/mm/aaaa)...?  "data de competencia do arquivo"
 ```
 
 **Observação:** Para a tectoy, rodar o seguinte comando:
@@ -40,9 +42,9 @@ npm run tectoy
 ------- Qual o diretório? "caminho do arquivo"
 
 ------- Qual nome do arquivo?  "nome do arquivo"
-```
 
-**Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
+------- Qual a data de competencia desse arquivo? format(dd/mm/aaaa)...?  "data de competencia do arquivo"
+```
 
 ## Arquivo de Utilização Samel
 
@@ -56,9 +58,9 @@ npm run util
 ------- Qual nome do arquivo?  "nome do arquivo"
 
 ------- Qual o index da aba?  "index da aba"
-```
 
-**Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
+------- Qual a data de competencia desse arquivo? format(dd/mm/aaaa)...?  "data de competencia do arquivo"
+```
 
 ## Arquivos Sinistro/Beneficiario GNDI
 
