@@ -1,5 +1,38 @@
 import { format, parse, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import readline from "readline/promises";
+import { stdin as input, stdout as output } from "process";
+
+let rl;
+
+// Função para criar a interface readline, caso ainda não tenha sido criada
+function createRL() {
+  if (!rl) {
+    rl = readline.createInterface({ input, output });
+  }
+}
+
+// Função para perguntar o diretório
+export async function askInputDir() {
+  createRL();
+  const inputDir = await rl.question("------- Qual o diretório? ");
+  return inputDir;
+}
+
+// Função para perguntar o nome do arquivo
+export async function askFileName() {
+  createRL();
+  const nameFile = await rl.question("------- Qual nome do arquivo? ");
+  return nameFile;
+}
+
+// Função para fechar a interface readline
+export function closeRL() {
+  if (rl) {
+    rl.close();
+    rl = null; // Limpar a variável para permitir recriar a interface futuramente
+  }
+}
 
 // Função para normalizar os nomes das colunas
 export const normalizeColumnName = (name) => {

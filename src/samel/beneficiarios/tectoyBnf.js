@@ -12,6 +12,8 @@ import {
   nameBnf,
   defaultValues,
   extractNumber,
+  askInputDir,
+  askFileName,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
 
@@ -232,9 +234,9 @@ const findAndProcessFile = (directory, nameFile) => {
   });
 };
 
-// Obtém o caminho do diretório passado como argumento no terminal
-const inputDir = process.argv[3];
-const nameFile = process.argv[2];
+const inputDir = await askInputDir();
+const nameFile = await askFileName();
+
 if (!inputDir || !nameFile) {
   console.error("Por favor, forneça o caminho para o diretório.");
   process.exit(1);

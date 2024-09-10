@@ -11,6 +11,7 @@ import {
   getCodigoDependenteValue,
   nameBnf,
   defaultValues,
+  askInputDir,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
 
@@ -218,8 +219,8 @@ const findAndProcessFile = (directory) => {
   });
 };
 
-// Obtém o caminho do diretório passado como argumento no terminal
-const inputDir = process.argv[2];
+const inputDir = await askInputDir();
+
 if (!inputDir) {
   console.error("Por favor, forneça o caminho para o diretório.");
   process.exit(1);
