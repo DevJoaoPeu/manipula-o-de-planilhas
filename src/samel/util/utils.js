@@ -26,6 +26,13 @@ export async function askFileName() {
   return nameFile;
 }
 
+// Função para pegar o index do page
+export async function askIndexNameSheet() {
+  createRL();
+  const index = await rl.question("------- Qual o index da aba? ");
+  return index;
+}
+
 // Função para fechar a interface readline
 export function closeRL() {
   if (rl) {
