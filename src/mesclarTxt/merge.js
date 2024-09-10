@@ -1,10 +1,11 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { askInputDir, askIsHeader } from "./utils/util.js";
 
 // Diretório onde os arquivos estão localizados
-const directoryPath = process.argv[3];
-const outputFileName = "Mensalidade.txt"; // Nome do arquivo de saída
-const hasHeader = process.argv[2] === "true"; // Se 'true', considera que os arquivos têm cabeçalho
+const directoryPath = await askInputDir();
+const outputFileName = "Mesclado.txt"; // Nome do arquivo de saída
+const hasHeader = (await askIsHeader()) === "Sim"; // Se 'true', considera que os arquivos têm cabeçalho
 
 class MergeFiles {
   async lerArquivos(directoryPath) {
@@ -58,7 +59,7 @@ class MergeFiles {
 
   async lerConteudo(filePath) {
     try {
-      const data = await fs.readFile(filePath, "utf8");
+      const data = await fs.readFile(filePath, "latin1");
       return data;
     } catch (error) {
       console.error("Erro ao ler o arquivo:", error.message);
@@ -69,10 +70,13 @@ class MergeFiles {
     const caminhoDeSaida = path.join(directoryPath, outputFileName);
 
     try {
-      await fs.writeFile(caminhoDeSaida, conteudo, "utf8");
+      await fs.writeFile(caminhoDeSaida, conteudo, "latin1");
       console.log(`Conteúdo combinado gravado em: ${caminhoDeSaida}`);
     } catch (error) {
       console.error("Erro ao gravar o arquivo:", error.message);
+    } finally {
+      console.log("Author: João Pereira");
+      process.exit();
     }
   }
 }
