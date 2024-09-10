@@ -12,6 +12,7 @@ import {
   nameBnf,
   defaultValues,
   askInputDir,
+  askDtCompet,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
 
@@ -75,9 +76,6 @@ const processExcelFile = (filePath) => {
             normalizeColumnName("subestipulante")
           ),
         };
-
-        // Verifica se os índices estão corretos
-        console.log(columnIndexes);
 
         // Filtra as colunas que correspondem a colunasOriginaisBnf
         const filteredData = rows.map((row) => {
@@ -175,7 +173,7 @@ const processExcelFile = (filePath) => {
               case "NrOperadora":
                 return defaultValues.NrOperadora;
               case "DataCompetencia":
-                return defaultValues.DataCompetencia;
+                return dtCompet;
               default:
                 return colIndex !== -1 ? (row[colIndex] || "").toString() : "";
             }
@@ -230,11 +228,12 @@ const findAndProcessFile = (directory) => {
 };
 
 const inputDir = await askInputDir();
+const dtCompet = await askDtCompet();
 
-if (!inputDir) {
+if (!inputDir || !dtCompet) {
   console.error("Por favor, forneça o caminho para o diretório.");
   process.exit(1);
 }
 
 // Chama a função para buscar e processar o arquivo Excel
-findAndProcessFile(inputDir);
+findAndProcessFile(inputDir, dtCompet);

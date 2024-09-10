@@ -14,6 +14,7 @@ import {
   extractNumber,
   askInputDir,
   askFileName,
+  askDtCompet,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
 
@@ -76,9 +77,6 @@ const processExcelFile = (filePath, nameFile) => {
           cnsIndex: columnNames.indexOf(normalizeColumnName("cns")),
           matriculaIndex: columnNames.indexOf(normalizeColumnName("matricula")),
         };
-
-        // Verifica se os índices estão corretos
-        console.log(columnIndexes);
 
         // Filtra as colunas que correspondem a colunasOriginaisBnf
         const filteredData = rows.map((row) => {
@@ -176,7 +174,7 @@ const processExcelFile = (filePath, nameFile) => {
               case "NrOperadora":
                 return defaultValues.NrOperadora;
               case "DataCompetencia":
-                return defaultValues.DataCompetencia;
+                return dtCompet;
               default:
                 return colIndex !== -1 ? (row[colIndex] || "").toString() : "";
             }
@@ -236,8 +234,9 @@ const findAndProcessFile = (directory, nameFile) => {
 
 const inputDir = await askInputDir();
 const nameFile = await askFileName();
+const dtCompet = await askDtCompet();
 
-if (!inputDir || !nameFile) {
+if (!inputDir || !nameFile || !dtCompet) {
   console.error("Por favor, forneça o caminho para o diretório.");
   process.exit(1);
 }
