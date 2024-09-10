@@ -1,11 +1,16 @@
 import ADODB from "node-adodb";
 import path from "path";
 import fs from "fs";
-import { convertNumberFormat, formatDate } from "./utils/util.js";
+import {
+  askDtCompet,
+  askInputDir,
+  convertNumberFormat,
+  formatDate,
+} from "./utils/util.js";
 import { BenefGndi } from "./benef.js";
 
-const directoryPath = process.argv[3];
-const datePath = process.argv[2];
+const directoryPath = await askInputDir();
+const datePath = await askDtCompet();
 
 class ProcessSinistroGndi {
   async verifyPath(directoryPath) {
@@ -96,11 +101,21 @@ class ProcessSinistroGndi {
 }
 
 async function processAllFiles() {
-  const processSinistroGndi = new ProcessSinistroGndi();
-  await processSinistroGndi.verifyPath(directoryPath);
+  try {
+    const processSinistroGndi = new ProcessSinistroGndi();
+    await processSinistroGndi.verifyPath(directoryPath);
 
-  const benefGndi = new BenefGndi();
-  await benefGndi.readAllMdbFiles(directoryPath, datePath);
+    const benefGndi = new BenefGndi();
+    await benefGndi.readAllMdbFiles(directoryPath, datePath);
+  } catch (error) {
+    console.error("Erro ao processar arquivos:", error);
+  } finally {
+    // Fechar readline e encerrar o processo
+    console.log(
+      "Todos os arquivos processados com sucesso!!! Author: João Pereira"
+    );
+    process.exit(0); // Encerra o processo com código de sucesso
+  }
 }
 
 processAllFiles();

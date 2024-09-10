@@ -1,4 +1,39 @@
 import { parse, format, isValid, parseISO } from "date-fns";
+import readline from "readline/promises";
+import { stdin as input, stdout as output } from "process";
+
+let rl;
+
+// Função para criar a interface readline, caso ainda não tenha sido criada
+function createRL() {
+  if (!rl) {
+    rl = readline.createInterface({ input, output });
+  }
+}
+
+// Função para perguntar o diretório
+export async function askInputDir() {
+  createRL();
+  const inputDir = await rl.question("------- Qual o diretório? ");
+  return inputDir;
+}
+
+// Função para perguntar a data compet
+export async function askDtCompet() {
+  createRL();
+  const inputDir = await rl.question(
+    "------- Qual a data de competencia desse arquivo? format(MMAAAA) "
+  );
+  return inputDir;
+}
+
+// Função para fechar a interface readline
+export function closeRL() {
+  if (rl) {
+    rl.close();
+    rl = null; // Limpar a variável para permitir recriar a interface futuramente
+  }
+}
 
 export function convertNumberFormat(value) {
   if (typeof value === "number") {
