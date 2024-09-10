@@ -30,6 +30,12 @@ Para rodar o arquivo de beneficiário Samel, use o comando:
 npm run "nome da empresa" "caminho do arquivo"
 ```
 
+**Observação:** Para a tectoy, rodar o seguinte comando:
+
+```bash
+npm run tectoy "nome do arquivo" "caminho do arquivo"
+```
+
 **Observação:** Lembre-se de alterar a data de processamento na variável `defaultValues`.
 
 ## Arquivo de Utilização Samel
