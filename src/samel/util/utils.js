@@ -19,6 +19,15 @@ export async function askInputDir() {
   return inputDir;
 }
 
+// Função para perguntar a data compet
+export async function askDtCompet() {
+  createRL();
+  const inputDir = await rl.question(
+    "------- Qual a data de competencia desse arquivo? format(dd/mm/aaaa)... "
+  );
+  return inputDir;
+}
+
 // Função para perguntar o nome do arquivo
 export async function askFileName() {
   createRL();
@@ -113,9 +122,12 @@ export const getTypePlano = (value) => {
   }
 };
 
-export const formatDate = (text) => {
+export const formatDate = (text, dtCompet) => {
   if (typeof text === "string") {
     try {
+      if (text === "") {
+        return "";
+      }
       // Verifica se o texto está no formato 'dd/MM/yyyy HH:mm'
       if (/\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}/.test(text.trim())) {
         // Tenta parsear a data no formato 'dd/MM/yyyy HH:mm'
@@ -125,16 +137,16 @@ export const formatDate = (text) => {
         return format(parsedDate, "dd/MM/yyyy HH:mm", { locale: ptBR });
       } else {
         // Retorna a data padrão se não estiver no formato esperado ou se não contiver hora
-        return `${defaultValues.DataCompetencia} 00:00`;
+        return `${dtCompet} 00:00`;
       }
     } catch (error) {
       // Retorna a data padrão em caso de erro
-      return `${defaultValues.DataCompetencia} 00:00`;
+      return `${dtCompet} 00:00`;
     }
   }
 
   // Retorna a data padrão caso o valor não seja uma string válida
-  return `${defaultValues.DataCompetencia} 00:00`;
+  return `${dtCompet} 00:00`;
 };
 
 export const defaultValues = {

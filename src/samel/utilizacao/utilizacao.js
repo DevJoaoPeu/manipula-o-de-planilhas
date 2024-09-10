@@ -8,12 +8,13 @@ import {
   askInputDir,
   askFileName,
   askIndexNameSheet,
+  askDtCompet,
 } from "../util/utils.js";
 import { convertExcelToTabDelimitedTxt } from "../util/convertFileTxt.js";
 import { colunasOriginaisUtil, formatDate } from "../util/utils.js";
 
 // Função para processar o arquivo Excel e criar uma nova planilha
-const processExcelFile = (filePath, indexSheet) => {
+const processExcelFile = (filePath, indexSheet, dtCompet) => {
   try {
     // Lê o arquivo Excel
     const workbook = xlsx.readFile(filePath);
@@ -43,9 +44,6 @@ const processExcelFile = (filePath, indexSheet) => {
         return acc;
       }, {});
 
-      // Verifica os índices das colunas
-      console.log("Índices das colunas:", columnIndexes);
-
       // Filtra as colunas que correspondem a colunasOriginaisUtil
       const filteredData = rows.map((row) => {
         return colunasOriginaisUtil.map((col) => {
@@ -55,7 +53,7 @@ const processExcelFile = (filePath, indexSheet) => {
 
           // Aplica a função formatDate à coluna "Data"
           if (normalizeColumnName(col) === normalizeColumnName("Data")) {
-            cellValue = formatDate(cellValue);
+            cellValue = formatDate(cellValue, dtCompet);
           }
 
           // Validações para colunas de valores numéricos
@@ -99,7 +97,12 @@ const processExcelFile = (filePath, indexSheet) => {
 };
 
 // Função para buscar o arquivo no diretório e processá-lo
-const findAndProcessFile = (directory, estipulanteName, indexSheet) => {
+const findAndProcessFile = (
+  directory,
+  estipulanteName,
+  indexSheet,
+  dtCompet
+) => {
   fs.readdir(directory, (err, files) => {
     if (err) {
       return console.error(`Erro ao ler o diretório: ${err.message}`);
@@ -121,18 +124,19 @@ const findAndProcessFile = (directory, estipulanteName, indexSheet) => {
 
     const filePath = path.join(directory, targetFile);
     console.log(`Arquivo encontrado: ${filePath}`);
-    processExcelFile(filePath, indexSheet);
+    processExcelFile(filePath, indexSheet, dtCompet);
   });
 };
 
 const inputDir = await askInputDir();
 const fileName = await askFileName();
 const indexSheet = await askIndexNameSheet();
+const dtCompet = await askDtCompet();
 
-if (!inputDir || !fileName || !indexSheet) {
+if (!inputDir || !fileName || !indexSheet || !dtCompet) {
   console.error("Por favor, forneça o caminho para o diretório.");
   process.exit(1);
 }
 
 // Chama a função para buscar e processar o arquivo Excel
-findAndProcessFile(inputDir, fileName, indexSheet);
+findAndProcessFile(inputDir, fileName, indexSheet, dtCompet);
