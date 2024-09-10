@@ -67,7 +67,11 @@ npm run util
 Para rodar o arquivo de Sinistro/Beneficiario GNDI, use o comando:
 
 ```bash
-npm run gndi "mm/aaaa" "caminho do arquivo"
+npm run gndi
+
+------- Qual o diretório? "Diretorio onde estão os arquivos Acess"
+
+------- Qual a data de competencia desse arquivo? format(MMAAAA) exemplo: 062024
 ```
 
 ## Merge de Arquivos `.txt`
@@ -75,7 +79,12 @@ npm run gndi "mm/aaaa" "caminho do arquivo"
 Para mesclar arquivos `.txt`, use o comando:
 
 ```bash
-npm run merge "true - se o arquivo tiver cabeçalho, false - se não tiver" "caminho do arquivo"
+npm run merge
+
+------- Qual o diretório? "Diretorio onde estão os arquivos txt"
+
+------- Os arquivos contém cabeçalho? sim ou não
+
 ```
 
 ## Contato
